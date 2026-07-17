@@ -58,6 +58,7 @@ class Pipe{
     int gravity = 1;
 
     ArrayList<Pipe> pipes;
+    Random random = new Random();
 
     Timer gameLoop;
     Timer placePipesTimer;
@@ -94,9 +95,20 @@ class Pipe{
     }
 
     public void placePipes(){
+        //(0-1) * pipeHeight/2 -> (0-256)
+        //128
+        //0 - 128 - (0-256) --> pipeHeight/4 -> 3/4 pipeHeight
+        
+        int randomPipeY = (int)(pipeY- pipeHeight/4 - Math.random()*(pipeHeight/2));
+        int openingSpace = boardHeight/4;
 
         Pipe topPipe = new Pipe(topPipeImg);
+        topPipe.y = randomPipeY;
         pipes.add(topPipe);
+
+        Pipe bottomPipe = new Pipe(bottomPipeImg);
+        bottomPipe.y = topPipe.y + pipeHeight + openingSpace;
+        pipes.add(bottomPipe);
     }
 
     public void paintComponent(Graphics g){
